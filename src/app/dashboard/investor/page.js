@@ -66,7 +66,17 @@ export default function InvestorDashboard() {
 
       // For now, we'll consider purchased invoices as a future feature
       // In a real app, you would track purchased invoices separately
-      setPurchasedInvoices([]);
+      const { data: myInvestments, error: investmentError } = await supabase
+        .from('invoices')
+        .select('*')
+        .eq('owner', profileData.email) // <--- Filter by Owner Email
+        .order('updated_at', { ascending: false });
+
+      if (investmentError) {
+        console.error('Error fetching investments:', investmentError);
+      } else {
+        setPurchasedInvoices(myInvestments || []);
+      }
 
       setLoading(false);
 
@@ -281,7 +291,7 @@ export default function InvestorDashboard() {
                       <td className="px-3 py-3">{invoice.listed_price ? `${invoice.listed_price} ETH` : "-"}</td>
                       <td className="px-3 py-3">
                         <span className="rounded-full px-3 py-1 text-xs font-medium bg-blue-900/50 text-blue-400">
-                          Active
+                          {invoice.status}
                         </span>
                       </td>
                     </tr>
