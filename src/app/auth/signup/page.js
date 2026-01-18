@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -18,6 +19,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [wallet, setWallet] = useState("");
+  const [gstin, setgstin] = useState("");
   const [role, setRole] = useState(roles[0].value);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -80,6 +82,7 @@ export default function RegisterPage() {
             data: {
               role,
               wallet_address: wallet,
+              gst_in: gstin,
             },
           },
         }),
@@ -117,6 +120,7 @@ export default function RegisterPage() {
           email,
           role,
           wallet_address: wallet,
+          gst_in: gstin,
         });
 
       if (profileError) {
@@ -212,6 +216,20 @@ export default function RegisterPage() {
               onChange={(e) => setWallet(e.target.value)}
               className="w-full rounded-lg bg-[#0b0b0f] border border-slate-700 px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
               placeholder="0x..."
+            />
+          </div>
+
+          <div className="form-item">
+            <label className="block text-sm text-gray-400 mb-2">
+              GST INVOICE NUMBER
+            </label>
+            <input
+              type="text"
+              required
+              value={gstin}
+              onChange={(e) => setgstin(e.target.value)}
+              className="w-full rounded-lg bg-[#0b0b0f] border border-slate-700 px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
+              placeholder="12ABCDE1234F1Z5"
             />
           </div>
 
